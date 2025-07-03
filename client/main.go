@@ -17,7 +17,13 @@ func main() {
 	}
 	defer client.Close()
 
-	args := Args{A: 5, B: 10}
+	var num1, num2 int
+	fmt.Print("Enter first number: ")
+	fmt.Scanf("%d", &num1)
+	fmt.Print("Enter second number: ")
+	fmt.Scanf("%d", &num2)
+
+	args := Args{A: num1, B: num2}
 	var reply int
 	err = client.Call("Arith.Add", args, &reply)
 	if err != nil {
@@ -26,11 +32,12 @@ func main() {
 	}
 	fmt.Println("Add Result:", reply)
 
-	errors := client.Call("Arith.Subtract", args, &reply)
-	if errors != nil {
-		fmt.Println("Error calling RPC:", errors)
+	var subtractReply int
+	err = client.Call("Arith.Subtract", args, &subtractReply)
+	if err != nil {
+		fmt.Println("Error calling RPC:", err)
 		return
 	}
-	fmt.Println("Subtract Result:", reply)
+	fmt.Println("Subtract Result:", subtractReply)
 	fmt.Println("\nRPC calls completed successfully")
 }
